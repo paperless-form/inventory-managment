@@ -1,0 +1,235 @@
+/* Custom CSS for Inventory Management Form */
+
+:root {
+    --primary-color: #0d6efd;
+    --primary-hover: #0b5ed7;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --border-radius: 0.75rem;
+    --shadow-light: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-medium: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --shadow-heavy: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    --transition: all 0.2s ease-in-out;
+}
+
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card Styling */
+.card {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-heavy) !important;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    border: 2px solid #e9ecef;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    background-color: #fff;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    background-color: #fff;
+}
+
+.form-control:hover,
+.form-select:hover {
+    border-color: #adb5bd;
+}
+
+/* Input Groups */
+.input-group-text {
+    border: 2px solid #e9ecef;
+    border-right: none;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    border-left: none;
+}
+
+/* Labels */
+.form-label {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+    border-width: 2px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-light);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-hover) 0%, #0a58ca 100%);
+    border-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-medium);
+}
+
+.btn-outline-secondary {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Header Styling */
+.display-5 {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0a58ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.lead {
+    color: #6c757d;
+    font-weight: 400;
+}
+
+/* Required Field Indicator */
+.form-label:has(+ .form-control[required])::after,
+.form-label:has(+ .form-select[required])::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Placeholder Styling */
+::placeholder {
+    color: #adb5bd !important;
+    font-style: italic;
+}
+
+/* Focus States Enhancement */
+.form-control:focus,
+.form-select:focus {
+    transform: scale(1.02);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    .form-control,
+    .form-select {
+        font-size: 1rem;
+    }
+}
+
+/* Animation for form elements */
+.form-control,
+.form-select,
+.btn {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animation for form fields */
+.col-12:nth-child(1) { animation-delay: 0.1s; }
+.col-12:nth-child(2) { animation-delay: 0.2s; }
+.col-12:nth-child(3) { animation-delay: 0.3s; }
+.col-12:nth-child(4) { animation-delay: 0.4s; }
+.col-12:nth-child(5) { animation-delay: 0.5s; }
+.col-12:nth-child(6) { animation-delay: 0.6s; }
+.col-12:nth-child(7) { animation-delay: 0.7s; }
+.col-12:nth-child(8) { animation-delay: 0.8s; }
+.col-12:nth-child(9) { animation-delay: 0.9s; }
+
+/* Enhanced shadow for better depth */
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175), 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Custom scrollbar for textarea */
+textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+/* Hover effects for interactive elements */
+.form-control:hover,
+.form-select:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-light);
+}
+
+/* Success state styling */
+.form-control:valid {
+    border-color: var(--success-color);
+}
+
+.form-control:valid:focus {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+}

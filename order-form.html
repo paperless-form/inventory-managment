@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form - Customer & Product Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="order-form.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <!-- Header Section -->
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bold text-primary mb-3">Place Your Order</h1>
+                    <p class="lead text-muted">Complete your customer and product details below</p>
+                </div>
+
+                <form>
+                    <!-- Customer Details Card -->
+                    <div class="card shadow-lg border-0 rounded-4 mb-4">
+                        <div class="card-header bg-primary bg-gradient text-white border-0 rounded-top-4">
+                            <h4 class="mb-0 fw-bold">
+                                <i class="bi bi-person-circle me-2"></i>
+                                Customer Details
+                            </h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <!-- Customer Name -->
+                                <div class="col-12 col-md-6">
+                                    <label for="customerName" class="form-label fw-semibold">Customer Name</label>
+                                    <input type="text" class="form-control form-control-lg" id="customerName" placeholder="Enter your full name" required>
+                                </div>
+
+                                <!-- Email Address -->
+                                <div class="col-12 col-md-6">
+                                    <label for="emailAddress" class="form-label fw-semibold">Email Address</label>
+                                    <input type="email" class="form-control form-control-lg" id="emailAddress" placeholder="Enter your email address" required>
+                                </div>
+
+                                <!-- Phone Number -->
+                                <div class="col-12 col-md-6">
+                                    <label for="phoneNumber" class="form-label fw-semibold">Phone Number</label>
+                                    <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="Enter your phone number" required>
+                                </div>
+
+                                <!-- Shipping Address -->
+                                <div class="col-12">
+                                    <label for="shippingAddress" class="form-label fw-semibold">Shipping Address</label>
+                                    <textarea class="form-control form-control-lg" id="shippingAddress" rows="3" placeholder="Enter your complete shipping address" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Details Card -->
+                    <div class="card shadow-lg border-0 rounded-4 mb-4">
+                        <div class="card-header bg-success bg-gradient text-white border-0 rounded-top-4">
+                            <h4 class="mb-0 fw-bold">
+                                <i class="bi bi-cart-check me-2"></i>
+                                Product Details
+                            </h4>
+                        </div>
+                        <div class="card-body p-4">
+                                                        <!-- Product Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover product-table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="fw-semibold">Product</th>
+                                            <th scope="col" class="fw-semibold">Quantity</th>
+                                            <th scope="col" class="fw-semibold">Unit Price</th>
+                                            <th scope="col" class="fw-semibold">Total</th>
+                                            <th scope="col" class="fw-semibold text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productTableBody">
+                                        <!-- Product Row 1 -->
+                                        <tr class="product-row">
+                                            <td>
+                                                <select class="form-select product-select" required>
+                                                    <option value="">Select a product</option>
+                                                    <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
+                                                    <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
+                                                    <option value="headphones" data-price="199">Wireless Headphones - $199</option>
+                                                    <option value="tablet" data-price="599">Tablet Air - $599</option>
+                                                    <option value="watch" data-price="299">Smart Watch - $299</option>
+                                                    <option value="camera" data-price="799">Digital Camera - $799</option>
+                                                    <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
+                                                    <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control price-input" readonly placeholder="0.00">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control total-input" readonly placeholder="0.00">
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-outline-danger btn-sm delete-product">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Add Another Product Button -->
+                            <div class="text-center">
+                                <button type="button" class="btn btn-outline-success btn-lg" id="addProductBtn">
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    Add Another Product
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary Card -->
+                    <div class="card shadow-lg border-0 rounded-4 mb-4">
+                        <div class="card-header bg-info bg-gradient text-white border-0 rounded-top-4">
+                            <h4 class="mb-0 fw-bold">
+                                <i class="bi bi-calculator me-2"></i>
+                                Order Summary
+                            </h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3">
+                                        <span class="fw-semibold">Subtotal:</span>
+                                        <span class="fw-bold text-primary fs-5">$0.00</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3">
+                                        <span class="fw-semibold">Total Items:</span>
+                                        <span class="fw-bold text-success fs-5">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-3 d-md-flex">
+                        <button type="submit" class="btn btn-primary btn-lg flex-fill">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Submit Order
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg flex-fill">
+                            <i class="bi bi-arrow-clockwise me-2"></i>
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Footer Info -->
+                <div class="text-center mt-4">
+                    <p class="text-muted small">
+                        <i class="bi bi-shield-check me-1"></i>
+                        Your order information is secure and encrypted
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for Order Form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let productRowCounter = 3; // Start from 3 since we have 2 initial rows
+            
+            // Add event listeners for existing elements
+            setupEventListeners();
+            
+            // Add Another Product button
+            document.getElementById('addProductBtn').addEventListener('click', addProductRow);
+            
+            // Clear Form button
+            document.querySelector('.btn-outline-secondary').addEventListener('click', clearForm);
+            
+            function setupEventListeners() {
+                // Product selection change
+                document.querySelectorAll('.product-select').forEach(select => {
+                    select.addEventListener('change', updatePriceAndTotal);
+                });
+                
+                // Quantity changes
+                document.querySelectorAll('.quantity-input').forEach(input => {
+                    input.addEventListener('input', updatePriceAndTotal);
+                });
+                
+                // Delete buttons
+                document.querySelectorAll('.delete-product').forEach(btn => {
+                    btn.addEventListener('click', deleteProductRow);
+                });
+            }
+            
+            function addProductRow() {
+                const tbody = document.getElementById('productTableBody');
+                const newRow = document.createElement('tr');
+                newRow.className = 'product-row';
+                newRow.innerHTML = `
+                    <td>
+                        <select class="form-select product-select">
+                            <option value="">Select a product</option>
+                            <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
+                            <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
+                            <option value="headphones" data-price="199">Wireless Headphones - $199</option>
+                            <option value="tablet" data-price="599">Tablet Air - $599</option>
+                            <option value="watch" data-price="299">Smart Watch - $299</option>
+                            <option value="camera" data-price="799">Digital Camera - $799</option>
+                            <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
+                            <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control price-input" readonly placeholder="0.00">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control total-input" readonly placeholder="0.00">
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-outline-danger btn-sm delete-product">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(newRow);
+                
+                // Add event listeners to new row
+                const newSelect = newRow.querySelector('.product-select');
+                const newQuantityInput = newRow.querySelector('.quantity-input');
+                const newDeleteBtn = newRow.querySelector('.delete-product');
+                
+                newSelect.addEventListener('change', updatePriceAndTotal);
+                newQuantityInput.addEventListener('input', updatePriceAndTotal);
+                newDeleteBtn.addEventListener('click', deleteProductRow);
+                
+                // Update delete buttons visibility
+                updateDeleteButtons();
+                updateOrderSummary();
+                
+                // Animate new row
+                newRow.style.opacity = '0';
+                newRow.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    newRow.style.transition = 'all 0.3s ease-out';
+                    newRow.style.opacity = '1';
+                    newRow.style.transform = 'translateY(0)';
+                }, 10);
+            }
+            
+            function deleteProductRow(event) {
+                const row = event.target.closest('tr');
+                if (document.querySelectorAll('.product-row').length > 1) {
+                    row.style.transition = 'all 0.3s ease-out';
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateX(-100%)';
+                    setTimeout(() => {
+                        row.remove();
+                        updateDeleteButtons();
+                        updateOrderSummary();
+                    }, 300);
+                }
+            }
+            
+
+            
+            function updatePriceAndTotal() {
+                const row = event.target.closest('tr');
+                const select = row.querySelector('.product-select');
+                const quantityInput = row.querySelector('.quantity-input');
+                const priceInput = row.querySelector('.price-input');
+                const totalInput = row.querySelector('.total-input');
+                
+                const selectedOption = select.options[select.selectedIndex];
+                const price = selectedOption.dataset.price ? parseFloat(selectedOption.dataset.price) : 0;
+                const quantity = parseInt(quantityInput.value) || 1;
+                const total = price * quantity;
+                
+                priceInput.value = price > 0 ? price.toFixed(2) : '0.00';
+                totalInput.value = total > 0 ? total.toFixed(2) : '0.00';
+                
+                updateOrderSummary();
+            }
+            
+            function updateDeleteButtons() {
+                const rows = document.querySelectorAll('.product-row');
+                const deleteButtons = document.querySelectorAll('.delete-product');
+                
+                if (rows.length === 1) {
+                    deleteButtons.forEach(btn => {
+                        btn.style.opacity = '0.5';
+                        btn.style.cursor = 'not-allowed';
+                        btn.disabled = true;
+                    });
+                } else {
+                    deleteButtons.forEach(btn => {
+                        btn.style.opacity = '1';
+                        btn.style.cursor = 'pointer';
+                        btn.disabled = false;
+                    });
+                }
+            }
+            
+            function updateOrderSummary() {
+                let subtotal = 0;
+                let totalItems = 0;
+                
+                document.querySelectorAll('.product-row').forEach(row => {
+                    const totalInput = row.querySelector('.total-input');
+                    const quantityInput = row.querySelector('.quantity-input');
+                    const total = parseFloat(totalInput.value) || 0;
+                    const quantity = parseInt(quantityInput.value) || 0;
+                    
+                    subtotal += total;
+                    totalItems += quantity;
+                });
+                
+                // Update summary display
+                const subtotalElement = document.querySelector('.text-primary.fs-5');
+                const totalItemsElement = document.querySelector('.text-success.fs-5');
+                
+                if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+                if (totalItemsElement) totalItemsElement.textContent = totalItems.toString();
+            }
+            
+            function clearForm() {
+                // Reset customer details
+                document.getElementById('customerName').value = '';
+                document.getElementById('emailAddress').value = '';
+                document.getElementById('phoneNumber').value = '';
+                document.getElementById('shippingAddress').value = '';
+                
+                // Reset product table to initial state with 2 rows
+                const tbody = document.getElementById('productTableBody');
+                tbody.innerHTML = `
+                    <tr class="product-row">
+                        <td>
+                            <select class="form-select product-select" required>
+                                <option value="">Select a product</option>
+                                <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
+                                <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
+                                <option value="headphones" data-price="199">Wireless Headphones - $199</option>
+                                <option value="tablet" data-price="599">Tablet Air - $599</option>
+                                <option value="watch" data-price="299">Smart Watch - $299</option>
+                                <option value="camera" data-price="799">Digital Camera - $799</option>
+                                <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
+                                <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity" required>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control price-input" readonly placeholder="0.00">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control total-input" readonly placeholder="0.00">
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-outline-danger btn-sm delete-product">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>
+                            <select class="form-select product-select">
+                                <option value="">Select a product</option>
+                                <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
+                                <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
+                                <option value="headphones" data-price="199">Wireless Headphones - $199</option>
+                                <option value="tablet" data-price="599">Tablet Air - $599</option>
+                                <option value="watch" data-price="299">Smart Watch - $299</option>
+                                <option value="camera" data-price="799">Digital Camera - $799</option>
+                                <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
+                                <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control price-input" readonly placeholder="0.00">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control total-input" readonly placeholder="0.00">
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-outline-danger btn-sm delete-product">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                
+                // Reset counter
+                productRowCounter = 3;
+                
+                // Re-setup event listeners
+                setupEventListeners();
+                
+                // Update UI
+                updateDeleteButtons();
+                updateOrderSummary();
+                
+                // Show success message
+                showMessage('Form cleared successfully!', 'success');
+            }
+            
+            function showMessage(message, type) {
+                // Create a simple toast message
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
+                toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                toast.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(toast);
+                
+                // Auto-remove after 3 seconds
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, 3000);
+            }
+            
+            // Initialize
+            updateDeleteButtons();
+            updateOrderSummary();
+        });
+    </script>
+</body>
+</html>
