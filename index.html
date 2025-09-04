@@ -5,12 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .table > tbody {
+            vertical-align: middle;
+        }
+        .loader-overlay {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, .8);
+            z-index: -1;
+            text-align: center;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .loader-overlay img {
+            margin: 35vh auto;
+            display: block;
+        }
+
+        .loader-overlay.show {
+            visibility: visible;
+            opacity: 1;
+            z-index: 20;
+        }
+        .alert-danger {
+            color: #dc3545;
+        }
+        input[readonly] {
+            background-color: #dadde0 !important;
+        }
+    </style>
 </head>
 <body class="bg-light">
+    <div class="loader-overlay show">
+        <img src="/loading.svg">
+    </div>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10 col-xl-8">
+            <div class="col-12 col-lg-10">
                 <!-- Header -->
                 <div class="text-center mb-5">
                     <h1 class="display-5 fw-bold text-primary mb-3">Inventory Management</h1>
@@ -19,91 +60,64 @@
 
                 <!-- Form Card -->
                 <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-body p-4 p-lg-5">
-                        <form>
-                            <div class="row g-4">
-                                <!-- Item Name -->
+                    <div class="card-body p-4 py-lg-5">
+                        <form id="formValues" action="https://script.google.com/macros/s/AKfycbwrlgN60-n1LiPXw7baYUVMCTIIEe836UAqC3WUZLHR56Gl21pKKKoiWcWXTGdLbzzE5Q/exec" method="post">
+                            <input type="hidden" name="page" value="goods_in">
+                            <div class="row g-4 mb-3">
+                                
+                                <!-- <div class="col-12 col-md-6">
+                                    <label for="item-code" class="form-label fw-semibold">Quantity</label>
+                                    <input type="text" class="form-control form-control-lg" id="item-code" placeholder="Enter item code" disabled>
+                                </div> -->
                                 <div class="col-12 col-md-6">
-                                    <label for="itemName" class="form-label fw-semibold">Item Name *</label>
-                                    <input type="text" class="form-control form-control-lg" id="itemName" placeholder="Enter item name" required>
-                                </div>
-
-                                <!-- Category -->
-                                <div class="col-12 col-md-6">
-                                    <label for="category" class="form-label fw-semibold">Category *</label>
-                                    <select class="form-select form-select-lg" id="category" required>
-                                        <option value="">Select category</option>
-                                        <option value="electronics">Electronics</option>
-                                        <option value="clothing">Clothing</option>
-                                        <option value="books">Books</option>
-                                        <option value="home">Home & Garden</option>
-                                        <option value="sports">Sports & Outdoors</option>
-                                        <option value="automotive">Automotive</option>
-                                        <option value="health">Health & Beauty</option>
-                                        <option value="other">Other</option>
+                                    <label for="staff" class="form-label fw-semibold">Staff</label>
+                                    <select class="form-select form-select-lg select2 required staff" id="staff" name="staff">
+                                        <option value="" selected disabled>Select staff</option>
                                     </select>
                                 </div>
-
-                                <!-- SKU/Code -->
-                                <div class="col-12 col-md-6">
-                                    <label for="sku" class="form-label fw-semibold">SKU/Code *</label>
-                                    <input type="text" class="form-control form-control-lg" id="sku" placeholder="Enter SKU or code" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="mb-0 fw-bold bg-success bg-gradient text-white border-0 rounded-top-4 p-3">
+                                        <i class="bi bi-cart-check me-2"></i>
+                                        Product Details
+                                    </h4>
                                 </div>
-
-                                <!-- Quantity -->
-                                <div class="col-12 col-md-6">
-                                    <label for="quantity" class="form-label fw-semibold">Quantity *</label>
-                                    <input type="number" class="form-control form-control-lg" id="quantity" placeholder="0" min="0" required>
-                                </div>
-
-                                <!-- Purchase Price -->
-                                <div class="col-12 col-md-6">
-                                    <label for="purchasePrice" class="form-label fw-semibold">Purchase Price *</label>
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-text bg-light border-end-0">$</span>
-                                        <input type="number" class="form-control border-start-0" id="purchasePrice" placeholder="0.00" min="0" step="0.01" required>
+                                <div class="col-12">
+                                    <div class="card shadow-lg border-0 mb-4">
+                                        <div class="card-body p-4">
+                                            <!-- Product Table -->
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th scope="col" class="fw-semibold" width="20%">Category</th>
+                                                            <th scope="col" class="fw-semibold" width="20%">Product</th>
+                                                            <th scope="col" class="fw-semibold" width="20%">Item Code</th>
+                                                            <th scope="col" class="fw-semibold" width="20%">Unit / Weight</th>
+                                                            <th scope="col" class="fw-semibold" width="10%">Quantity</th>
+                                                            <th scope="col" class="fw-semibold text-center" width="10%">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="productTableBody">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <!-- Selling Price -->
-                                <div class="col-12 col-md-6">
-                                    <label for="sellingPrice" class="form-label fw-semibold">Selling Price *</label>
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-text bg-light border-end-0">$</span>
-                                        <input type="number" class="form-control border-start-0" id="sellingPrice" placeholder="0.00" min="0" step="0.01" required>
-                                    </div>
-                                </div>
-
-                                <!-- Supplier -->
-                                <div class="col-12 col-md-6">
-                                    <label for="supplier" class="form-label fw-semibold">Supplier</label>
-                                    <input type="text" class="form-control form-control-lg" id="supplier" placeholder="Enter supplier name">
-                                </div>
-
-                                <!-- Date Added -->
-                                <div class="col-12 col-md-6">
-                                    <label for="dateAdded" class="form-label fw-semibold">Date Added *</label>
-                                    <input type="date" class="form-control form-control-lg" id="dateAdded" required>
-                                </div>
-
-                                <!-- Notes -->
+                            </div>
+                            <div class="row g-4">
                                 <div class="col-12">
                                     <label for="notes" class="form-label fw-semibold">Notes</label>
-                                    <textarea class="form-control form-control-lg" id="notes" rows="4" placeholder="Add any additional notes or descriptions..."></textarea>
+                                    <textarea class="form-control form-control-lg" id="notes" rows="4" placeholder="Add any additional notes or descriptions..." name="notes"></textarea>
                                 </div>
 
                                 <!-- Buttons -->
                                 <div class="col-12">
-                                    <div class="d-grid gap-3 d-md-flex">
-                                        <button type="submit" class="btn btn-primary btn-lg flex-fill">
-                                            <i class="bi bi-check-circle me-2"></i>
-                                            Save Item
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-lg flex-fill">
-                                            <i class="bi bi-arrow-clockwise me-2"></i>
-                                            Clear Form
-                                        </button>
-                                    </div>
+                                    <button type="button" class="btn btn-primary py-3" id="save-btn">
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -120,11 +134,212 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
-    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        var products = '', categories_option = '';
+        $(document).ready(function() {
+            $.get('https://script.google.com/macros/s/AKfycbwrlgN60-n1LiPXw7baYUVMCTIIEe836UAqC3WUZLHR56Gl21pKKKoiWcWXTGdLbzzE5Q/exec',function(response){
+                var dropdown = response.dropdown;
+                products = response.products;
+                for(var i=0; i<dropdown.length; i++){
+                    if(dropdown[i][0] != ''){
+                        $('.staff').append('<option value="'+dropdown[i][0]+'">'+dropdown[i][0]+'</option>');
+                    }
+                }
+
+                var categories = [];
+                for(var i=0; i<products.length; i++)
+                {
+                    if(products[i][1] != '' && categories.indexOf(products[i][1]) == -1){
+                        categories_option += `<option value="${products[i][1]}">${products[i][1]}</option>`;
+                        categories.push(products[i][1]);
+                    }
+                }
+                
+                $('.productTableBody').empty();
+                addProductRow();
+                $('.loader-overlay').removeClass('show');
+            })
+        });
+
+        function addProductRow(){
+            $('.btn-outline-success').addClass('btn-outline-danger').removeClass('btn-outline-success');
+            $('.add-product').addClass('delete-product').removeClass('add-product');
+            $('.bi-plus').addClass('bi-trash').removeClass('bi-plus');
+
+            $('.productTableBody').append(`
+                <tr class="product-row">
+                    <td>
+                        <div>
+                            <select class="form-select category select2 required" name="category">
+                                <option value="" selected disabled>Select Category</option>
+                                ${categories_option}
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <select class="form-select product select2 required" name="product">
+                                <option value="" selected disabled>Select Product</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" class="form-control item-code" placeholder="Item Code" readonly name="item_code">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" class="form-control unit-weight" placeholder="Unit / Weight" readonly name="unit_weight">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" class="form-control quantity required number" placeholder="Qty" name="quantity">
+                        </div>
+                    </td>
+                    <td class="text-center"><button type="button" class="btn btn-outline-success add-product text-center fw-bold"><i class="bi bi-plus"></i></button></td>
+                </tr>
+            `);
+            
+            $("select.select2-hidden-accessible").select2('destroy');
+            $('.select2').select2({
+                width: '100%'
+            });
+        }
+
+        $(document).on('click', '.add-product', function(){
+            addProductRow();
+        })
+
+        $(document).on('click', '.delete-product', function(){
+            $(this).closest('tr').remove();
+        })
+
+        $(document).on('change', '.category', function(){
+            var value = $(this).find('option:selected').val();
+            var tr = $(this).closest('tr');
+            tr.find('.product').empty();
+            tr.find('.item-code, .unit-weight').val('');
+            tr.find('.product').append(`<option value="" selected disabled>Select Product</option>`);
+            for(var i=0; i<products.length; i++){
+                if(products[i][1] == value){
+                    tr.find('.product').append(`<option value="${products[i][2]}" data-id="${i}">${products[i][2]}</option>`);
+                }
+            }
+        })
+
+        $(document).on('change', '.product', function(){    
+            var value = $(this).find('option:selected').val();
+            var tr = $(this).closest('tr');
+            var id = $(this).find('option:selected').data('id');
+            if(id != undefined){
+                tr.find('.item-code').val(products[id][0]);
+                tr.find('.unit-weight').val(products[id][3]);
+            }
+            else{
+                tr.find('.item-code, .unit-weight').val('');
+            }
+        })
+
+        function validate() {
+            var valid = true;
+            $('input, select, .select2-selection').removeClass('danger')
+            $(".alert-danger").remove();
+            $(".required:visible, .mandatory:visible").each(function () {
+                if ($(this).val() == "" || $(this).val() == null || ($(this).attr('type') == "checkbox" && !$(this).is(":checked"))) {
+                    $(this).closest("div").append('<div class="alert-danger ps-1">This field is required</div>');
+                    $(this).addClass('danger')
+                    valid = false;
+                }
+            });
+            $(".email:visible").each(function () {
+                var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+                email_check = emailReg.test($(this).val())
+                if (email_check == false) {
+                    $(this).closest("div").append('<div class="alert-danger ps-1">Invalid email format</div>');
+                    $(this).addClass('danger')
+                    valid = false;
+                }
+            })
+
+            if (!valid) {
+                $("html, body").animate(
+                    {
+                        scrollTop: $(".alert-danger:first").offset().top - 80,
+                    },
+                    100
+                );
+            }
+            return valid;
+        }
+
+        $(document).on('input', '.number', function (e) {
+            this.value = this.value.replace(/[^0.00-9.99]/g, '').replace(/(\..*)\./g, '$1').replace(new RegExp("(^[\\d]{50})[\\d]", "g"), '$1');
+        });
+
+        $(document).on('click', '#save-btn', function(e){
+            e.preventDefault();
+            if(!validate()){
+                return;
+            }
+            else{
+                $('.loader-overlay').addClass('show');
+                var form = $("#formValues");
+                $('#save-btn').attr('disabled', 'disabled');
+                $('#save-btn').text('Please wait...');
+                var url_gsheet = $('#formValues').attr("action");
+                $.ajax({
+                    type: "POST",
+                    url: url_gsheet,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        if (response.result == "success") {
+                            Swal.fire({
+                                title: "Good Job!",
+                                text: "Thank you for submitting",
+                                icon: "success",
+                            })
+                                $('#save-btn').removeAttr('disabled');
+                                $('#save-btn').text('Submit Again');
+                                $('.loader-overlay').removeClass('show');
+                            //     .then(function () {
+                            //         window.location = window.location.href;
+                            //     });
+                            // setTimeout(function () {
+                            //     window.location = window.location.href;
+                            // }, 3000);
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: response.error,
+                                icon: "error",
+                            }).then(function () {
+                                $('#save-btn').removeAttr('disabled');
+                                $('#save-btn').text('Submit Again');
+                                $('.loader-overlay').removeClass('show');
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Something went wrong",
+                            icon: "error",
+                        }).then(function () {
+                            $('#save-btn').removeAttr('disabled');
+                            $('#save-btn').text('Submit Again');
+                            $('.loader-overlay').removeClass('show');
+                        });
+                    }
+                });
+            }
+        })
+    </script>
 </body>
 </html>
