@@ -142,6 +142,9 @@
     <script>
         var products = '', categories_option = '';
         $(document).ready(function() {
+            $('.select2').select2({
+                width: '100%'
+            });
             $.get('https://script.google.com/macros/s/AKfycbwrlgN60-n1LiPXw7baYUVMCTIIEe836UAqC3WUZLHR56Gl21pKKKoiWcWXTGdLbzzE5Q/exec',function(response){
                 var dropdown = response.dropdown;
                 products = response.products;
@@ -175,7 +178,7 @@
                 <tr class="product-row">
                     <td>
                         <div>
-                            <select class="form-select category select2 required" name="category">
+                            <select class="form-select category tags-true-select2 required" name="category">
                                 <option value="" selected disabled>Select Category</option>
                                 ${categories_option}
                             </select>
@@ -183,7 +186,7 @@
                     </td>
                     <td>
                         <div>
-                            <select class="form-select product select2 required" name="product">
+                            <select class="form-select product tags-true-select2 required" name="product">
                                 <option value="" selected disabled>Select Product</option>
                             </select>
                         </div>
@@ -201,15 +204,17 @@
                     <td>
                         <div>
                             <input type="text" class="form-control quantity required number" placeholder="Qty" name="quantity">
+                            <input type="hidden" class="is-exist" name="is_exist">
                         </div>
                     </td>
                     <td class="text-center"><button type="button" class="btn btn-outline-success add-product text-center fw-bold"><i class="bi bi-plus"></i></button></td>
                 </tr>
             `);
             
-            $("select.select2-hidden-accessible").select2('destroy');
-            $('.select2').select2({
-                width: '100%'
+            $(".tags-true-select2.select2-hidden-accessible").select2('destroy');
+            $('.tags-true-select2').select2({
+                width: '100%',
+                tags: true
             });
         }
 
@@ -241,9 +246,13 @@
             if(id != undefined){
                 tr.find('.item-code').val(products[id][0]);
                 tr.find('.unit-weight').val(products[id][3]);
+                tr.find('.item-code, .unit-weight').attr('readonly', true);
+                tr.find('.is-exist').val('yes');
             }
             else{
                 tr.find('.item-code, .unit-weight').val('');
+                tr.find('.item-code, .unit-weight').removeAttr('readonly');
+                tr.find('.is-exist').val('no');
             }
         })
 
@@ -305,15 +314,15 @@
                                 text: "Thank you for submitting",
                                 icon: "success",
                             })
-                                $('#save-btn').removeAttr('disabled');
-                                $('#save-btn').text('Submit Again');
-                                $('.loader-overlay').removeClass('show');
-                            //     .then(function () {
-                            //         window.location = window.location.href;
-                            //     });
-                            // setTimeout(function () {
-                            //     window.location = window.location.href;
-                            // }, 3000);
+                                // $('#save-btn').removeAttr('disabled');
+                                // $('#save-btn').text('Submit Again');
+                                // $('.loader-overlay').removeClass('show');
+                                .then(function () {
+                                    window.location = window.location.href;
+                                });
+                            setTimeout(function () {
+                                window.location = window.location.href;
+                            }, 3000);
                         } else {
                             Swal.fire({
                                 title: "Error!",
