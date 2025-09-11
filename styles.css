@@ -468,3 +468,36 @@ textarea::-webkit-scrollbar-thumb:hover {
         transform: scale(1);
     }
 }
+
+.table > tbody {
+    vertical-align: middle;
+}
+.loader-overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, .8);
+    z-index: -1;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.loader-overlay img {
+    margin: 35vh auto;
+    display: block;
+}
+
+.loader-overlay.show {
+    visibility: visible;
+    opacity: 1;
+    z-index: 20;
+}
+.alert-danger {
+    color: #dc3545;
+}
+input[readonly] {
+    background-color: #dadde0 !important;
+}

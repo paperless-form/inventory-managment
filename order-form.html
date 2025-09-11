@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Form - Customer & Product Details</title>
+    <title>Order Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="order-form.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-light">
+    <div class="loader-overlay show">
+        <img src="https://paperless-form.github.io/inventory-managment/loading.svg">
+    </div>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10 col-xl-8">
+            <div class="col-12">
                 <!-- Header Section -->
                 <div class="text-center mb-5">
                     <h1 class="display-5 fw-bold text-primary mb-3">Place Your Order</h1>
                     <p class="lead text-muted">Complete your customer and product details below</p>
                 </div>
 
-                <form>
+                <form id="formValues" action="https://script.google.com/macros/s/AKfycbwrlgN60-n1LiPXw7baYUVMCTIIEe836UAqC3WUZLHR56Gl21pKKKoiWcWXTGdLbzzE5Q/exec" method="POST">
                     <!-- Customer Details Card -->
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
-                        <div class="card-header bg-primary bg-gradient text-white border-0 rounded-top-4">
+                        <div class="card-header bg-primary bg-gradient text-white border-0 rounded-top-4 py-3">
                             <h4 class="mb-0 fw-bold">
                                 <i class="bi bi-person-circle me-2"></i>
                                 Customer Details
@@ -30,26 +35,29 @@
                             <div class="row g-3">
                                 <!-- Customer Name -->
                                 <div class="col-12 col-md-6">
-                                    <label for="customerName" class="form-label fw-semibold">Customer Name</label>
-                                    <input type="text" class="form-control form-control-lg" id="customerName" placeholder="Enter your full name" required>
+                                    <label for="customerName" class="form-label fw-semibold">Customer Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg required" id="customerName" placeholder="Enter your full name" name="customer_name">
+                                    <input type="hidden" name="page" value="order_form">
+                                    <input type="hidden" name="date">
+                                    <input type="hidden" name="order_ref">
                                 </div>
 
                                 <!-- Email Address -->
                                 <div class="col-12 col-md-6">
-                                    <label for="emailAddress" class="form-label fw-semibold">Email Address</label>
-                                    <input type="email" class="form-control form-control-lg" id="emailAddress" placeholder="Enter your email address" required>
+                                    <label for="emailAddress" class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control form-control-lg required email" id="emailAddress" placeholder="Enter your email address" name="email_address">
                                 </div>
 
                                 <!-- Phone Number -->
                                 <div class="col-12 col-md-6">
-                                    <label for="phoneNumber" class="form-label fw-semibold">Phone Number</label>
-                                    <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="Enter your phone number" required>
+                                    <label for="phoneNumber" class="form-label fw-semibold">Phone Number <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control form-control-lg number required" id="phoneNumber" placeholder="Enter your phone number" name="phone_number">
                                 </div>
 
                                 <!-- Shipping Address -->
                                 <div class="col-12">
-                                    <label for="shippingAddress" class="form-label fw-semibold">Shipping Address</label>
-                                    <textarea class="form-control form-control-lg" id="shippingAddress" rows="3" placeholder="Enter your complete shipping address" required></textarea>
+                                    <label for="shippingAddress" class="form-label fw-semibold">Shipping Address <span class="text-danger">*</span></label>
+                                    <textarea class="form-control form-control-lg required" id="shippingAddress" rows="3" placeholder="Enter your complete shipping address" name="shipping_address"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +65,7 @@
 
                     <!-- Product Details Card -->
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
-                        <div class="card-header bg-success bg-gradient text-white border-0 rounded-top-4">
+                        <div class="card-header bg-success bg-gradient text-white border-0 rounded-top-4 py-3">
                             <h4 class="mb-0 fw-bold">
                                 <i class="bi bi-cart-check me-2"></i>
                                 Product Details
@@ -69,61 +77,24 @@
                                 <table class="table table-hover product-table">
                                     <thead class="table-light">
                                         <tr>
-                                            <th scope="col" class="fw-semibold">Product</th>
-                                            <th scope="col" class="fw-semibold">Quantity</th>
-                                            <th scope="col" class="fw-semibold">Unit Price</th>
-                                            <th scope="col" class="fw-semibold">Total</th>
-                                            <th scope="col" class="fw-semibold text-center">Actions</th>
+                                            <th scope="col" class="fw-semibold" width="25%">Category</th>
+                                            <th scope="col" class="fw-semibold" width="25%">Product</th>
+                                            <th scope="col" class="fw-semibold" width="15%">Unit / Weight</th>
+                                            <th scope="col" class="fw-semibold" width="15%">In Stock</th>
+                                            <th scope="col" class="fw-semibold" width="15%">Quantity</th>
+                                            <th scope="col" class="fw-semibold text-center" width="5%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="productTableBody">
-                                        <!-- Product Row 1 -->
-                                        <tr class="product-row">
-                                            <td>
-                                                <select class="form-select product-select" required>
-                                                    <option value="">Select a product</option>
-                                                    <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
-                                                    <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
-                                                    <option value="headphones" data-price="199">Wireless Headphones - $199</option>
-                                                    <option value="tablet" data-price="599">Tablet Air - $599</option>
-                                                    <option value="watch" data-price="299">Smart Watch - $299</option>
-                                                    <option value="camera" data-price="799">Digital Camera - $799</option>
-                                                    <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
-                                                    <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity" required>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control price-input" readonly placeholder="0.00">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control total-input" readonly placeholder="0.00">
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-outline-danger btn-sm delete-product">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <!-- Add Another Product Button -->
-                            <div class="text-center">
-                                <button type="button" class="btn btn-outline-success btn-lg" id="addProductBtn">
-                                    <i class="bi bi-plus-circle me-2"></i>
-                                    Add Another Product
-                                </button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Order Summary Card -->
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
-                        <div class="card-header bg-info bg-gradient text-white border-0 rounded-top-4">
+                        <div class="card-header bg-info bg-gradient text-white border-0 rounded-top-4 py-3">
                             <h4 class="mb-0 fw-bold">
                                 <i class="bi bi-calculator me-2"></i>
                                 Order Summary
@@ -131,32 +102,25 @@
                         </div>
                         <div class="card-body p-4">
                             <div class="row g-3">
-                                <div class="col-12 col-md-6">
-                                    <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3">
-                                        <span class="fw-semibold">Subtotal:</span>
-                                        <span class="fw-bold text-primary fs-5">$0.00</span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-12">
                                     <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3">
                                         <span class="fw-semibold">Total Items:</span>
-                                        <span class="fw-bold text-success fs-5">0</span>
+                                        <span class="fw-bold text-success fs-5 total-items">0</span>
                                     </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="notes" class="form-label fw-semibold">Notes</label>
+                                    <textarea class="form-control form-control-lg" id="notes" rows="4" placeholder="Add any additional notes or descriptions..." name="notes"></textarea>
+                                </div>
+        
+                                <!-- Buttons -->
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary py-3" id="save-btn">
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="d-grid gap-3 d-md-flex">
-                        <button type="submit" class="btn btn-primary btn-lg flex-fill">
-                            <i class="bi bi-check-circle me-2"></i>
-                            Submit Order
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary btn-lg flex-fill">
-                            <i class="bi bi-arrow-clockwise me-2"></i>
-                            Clear Form
-                        </button>
                     </div>
                 </form>
 
@@ -170,286 +134,258 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
-    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript for Order Form -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let productRowCounter = 3; // Start from 3 since we have 2 initial rows
-            
-            // Add event listeners for existing elements
-            setupEventListeners();
-            
-            // Add Another Product button
-            document.getElementById('addProductBtn').addEventListener('click', addProductRow);
-            
-            // Clear Form button
-            document.querySelector('.btn-outline-secondary').addEventListener('click', clearForm);
-            
-            function setupEventListeners() {
-                // Product selection change
-                document.querySelectorAll('.product-select').forEach(select => {
-                    select.addEventListener('change', updatePriceAndTotal);
-                });
-                
-                // Quantity changes
-                document.querySelectorAll('.quantity-input').forEach(input => {
-                    input.addEventListener('input', updatePriceAndTotal);
-                });
-                
-                // Delete buttons
-                document.querySelectorAll('.delete-product').forEach(btn => {
-                    btn.addEventListener('click', deleteProductRow);
-                });
-            }
-            
-            function addProductRow() {
-                const tbody = document.getElementById('productTableBody');
-                const newRow = document.createElement('tr');
-                newRow.className = 'product-row';
-                newRow.innerHTML = `
-                    <td>
-                        <select class="form-select product-select">
-                            <option value="">Select a product</option>
-                            <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
-                            <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
-                            <option value="headphones" data-price="199">Wireless Headphones - $199</option>
-                            <option value="tablet" data-price="599">Tablet Air - $599</option>
-                            <option value="watch" data-price="299">Smart Watch - $299</option>
-                            <option value="camera" data-price="799">Digital Camera - $799</option>
-                            <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
-                            <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control price-input" readonly placeholder="0.00">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control total-input" readonly placeholder="0.00">
-                    </td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-outline-danger btn-sm delete-product">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                `;
-                
-                tbody.appendChild(newRow);
-                
-                // Add event listeners to new row
-                const newSelect = newRow.querySelector('.product-select');
-                const newQuantityInput = newRow.querySelector('.quantity-input');
-                const newDeleteBtn = newRow.querySelector('.delete-product');
-                
-                newSelect.addEventListener('change', updatePriceAndTotal);
-                newQuantityInput.addEventListener('input', updatePriceAndTotal);
-                newDeleteBtn.addEventListener('click', deleteProductRow);
-                
-                // Update delete buttons visibility
-                updateDeleteButtons();
-                updateOrderSummary();
-                
-                // Animate new row
-                newRow.style.opacity = '0';
-                newRow.style.transform = 'translateY(-20px)';
-                setTimeout(() => {
-                    newRow.style.transition = 'all 0.3s ease-out';
-                    newRow.style.opacity = '1';
-                    newRow.style.transform = 'translateY(0)';
-                }, 10);
-            }
-            
-            function deleteProductRow(event) {
-                const row = event.target.closest('tr');
-                if (document.querySelectorAll('.product-row').length > 1) {
-                    row.style.transition = 'all 0.3s ease-out';
-                    row.style.opacity = '0';
-                    row.style.transform = 'translateX(-100%)';
-                    setTimeout(() => {
-                        row.remove();
-                        updateDeleteButtons();
-                        updateOrderSummary();
-                    }, 300);
-                }
-            }
-            
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-            
-            function updatePriceAndTotal() {
-                const row = event.target.closest('tr');
-                const select = row.querySelector('.product-select');
-                const quantityInput = row.querySelector('.quantity-input');
-                const priceInput = row.querySelector('.price-input');
-                const totalInput = row.querySelector('.total-input');
+    <script>
+        var stock = '', product_options = '', category_options = '', categories = [];
+        $(document).ready(function(){
+            var date = new Date();
+            var today =addZero(date.getDate())+ '/' + addZero(date.getMonth() + 1) + '/' +date.getFullYear() ;
+            $('input[name="date"]').val(today);
+            $('input[name="order_ref"]').val(addZero(date.getHours())+ '' + addZero(date.getMinutes()) + '' + addZero(date.getSeconds())+ '' + addZero(date.getDate())+ '' + addZero(date.getMonth() + 1) + '' +date.getFullYear());
+
+            $.get('https://script.google.com/macros/s/AKfycbwrlgN60-n1LiPXw7baYUVMCTIIEe836UAqC3WUZLHR56Gl21pKKKoiWcWXTGdLbzzE5Q/exec?page=order-form',function(response){
+                stock = response.stock;
                 
-                const selectedOption = select.options[select.selectedIndex];
-                const price = selectedOption.dataset.price ? parseFloat(selectedOption.dataset.price) : 0;
-                const quantity = parseInt(quantityInput.value) || 1;
-                const total = price * quantity;
-                
-                priceInput.value = price > 0 ? price.toFixed(2) : '0.00';
-                totalInput.value = total > 0 ? total.toFixed(2) : '0.00';
-                
-                updateOrderSummary();
+                for(var i=0; i<stock.length; i++){
+                    if(stock[i][5] != '' && stock[i][5] != "0" && categories.indexOf(stock[i][0]) == -1){
+                        category_options += `<option value="${stock[i][0]}">${stock[i][0]}</option>`;
+                        categories.push(stock[i][0]);
+                    }
+                }
+                addProductRow();
+                $('.loader-overlay').hide();
+            });
+        });
+
+        function addZero(i) {
+            if (i < 10) {
+                i = "0" + i;
             }
+            return i;
+        }
+
+        function addProductRow(){
+            $('.btn-outline-success').addClass('btn-outline-danger').removeClass('btn-outline-success');
+            $('.add-product').addClass('delete-product').removeClass('add-product');
+            $('.bi-plus').addClass('bi-trash').removeClass('bi-plus');
+            $('#productTableBody').append(`
+                <tr class="product-row">
+                    <td>
+                        <div>
+                            <select class="form-select category-select select2 required" name="category">
+                                <option value="" selected disabled>Select Category</option>
+                                ${category_options}
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <select class="form-select product-select select2 required" name="product">
+                                <option value="" selected disabled>Select Product</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" class="form-control unit-weight" readonly placeholder="Unit Weight" name="unit_weight">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" class="form-control in-stock" readonly placeholder="In Stock">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" class="form-control quantity-input required number" placeholder="Qty" name="quantity">
+                        </div>
+                    </td>
+                    <td class="text-center"><button type="button" class="btn btn-outline-success add-product text-center fw-bold"><i class="bi bi-plus"></i></button></td>
+                </tr>
+            `);
             
-            function updateDeleteButtons() {
-                const rows = document.querySelectorAll('.product-row');
-                const deleteButtons = document.querySelectorAll('.delete-product');
-                
-                if (rows.length === 1) {
-                    deleteButtons.forEach(btn => {
-                        btn.style.opacity = '0.5';
-                        btn.style.cursor = 'not-allowed';
-                        btn.disabled = true;
-                    });
-                } else {
-                    deleteButtons.forEach(btn => {
-                        btn.style.opacity = '1';
-                        btn.style.cursor = 'pointer';
-                        btn.disabled = false;
-                    });
+            $(".select2.select2-hidden-accessible").select2('destroy');
+            $('.select2').select2({
+                width: '100%',
+                tags: true
+            });
+        }
+
+        $(document).on('change', '.category-select', function(){
+            var value = $(this).find('option:selected').val();
+            var tr = $(this).closest('tr');
+            tr.find('.product-select').empty();
+            tr.find('.product-select').append(`<option value="" selected disabled>Select Product</option>`);
+            
+            tr.find('.unit-weight').val('');
+            tr.find('.in-stock').val('');
+
+            for(var i=0; i<stock.length; i++){
+                if(stock[i][0] == value && stock[i][5] != '' && stock[i][5] != "0"){
+                    tr.find('.product-select').append(`<option value="${stock[i][1]}" data-id="${i}">${stock[i][1]}</option>`);
                 }
             }
-            
-            function updateOrderSummary() {
-                let subtotal = 0;
-                let totalItems = 0;
-                
-                document.querySelectorAll('.product-row').forEach(row => {
-                    const totalInput = row.querySelector('.total-input');
-                    const quantityInput = row.querySelector('.quantity-input');
-                    const total = parseFloat(totalInput.value) || 0;
-                    const quantity = parseInt(quantityInput.value) || 0;
-                    
-                    subtotal += total;
-                    totalItems += quantity;
-                });
-                
-                // Update summary display
-                const subtotalElement = document.querySelector('.text-primary.fs-5');
-                const totalItemsElement = document.querySelector('.text-success.fs-5');
-                
-                if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-                if (totalItemsElement) totalItemsElement.textContent = totalItems.toString();
-            }
-            
-            function clearForm() {
-                // Reset customer details
-                document.getElementById('customerName').value = '';
-                document.getElementById('emailAddress').value = '';
-                document.getElementById('phoneNumber').value = '';
-                document.getElementById('shippingAddress').value = '';
-                
-                // Reset product table to initial state with 2 rows
-                const tbody = document.getElementById('productTableBody');
-                tbody.innerHTML = `
-                    <tr class="product-row">
-                        <td>
-                            <select class="form-select product-select" required>
-                                <option value="">Select a product</option>
-                                <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
-                                <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
-                                <option value="headphones" data-price="199">Wireless Headphones - $199</option>
-                                <option value="tablet" data-price="599">Tablet Air - $599</option>
-                                <option value="watch" data-price="299">Smart Watch - $299</option>
-                                <option value="camera" data-price="799">Digital Camera - $799</option>
-                                <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
-                                <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity" required>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control price-input" readonly placeholder="0.00">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control total-input" readonly placeholder="0.00">
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-outline-danger btn-sm delete-product">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="product-row">
-                        <td>
-                            <select class="form-select product-select">
-                                <option value="">Select a product</option>
-                                <option value="laptop" data-price="1299">Premium Laptop - $1,299</option>
-                                <option value="smartphone" data-price="899">Smartphone Pro - $899</option>
-                                <option value="headphones" data-price="199">Wireless Headphones - $199</option>
-                                <option value="tablet" data-price="599">Tablet Air - $599</option>
-                                <option value="watch" data-price="299">Smart Watch - $299</option>
-                                <option value="camera" data-price="799">Digital Camera - $799</option>
-                                <option value="speaker" data-price="149">Bluetooth Speaker - $149</option>
-                                <option value="keyboard" data-price="129">Mechanical Keyboard - $129</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control quantity-input" value="1" placeholder="Quantity">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control price-input" readonly placeholder="0.00">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control total-input" readonly placeholder="0.00">
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-outline-danger btn-sm delete-product">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                
-                // Reset counter
-                productRowCounter = 3;
-                
-                // Re-setup event listeners
-                setupEventListeners();
-                
-                // Update UI
-                updateDeleteButtons();
-                updateOrderSummary();
-                
-                // Show success message
-                showMessage('Form cleared successfully!', 'success');
-            }
-            
-            function showMessage(message, type) {
-                // Create a simple toast message
-                const toast = document.createElement('div');
-                toast.className = `alert alert-${type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
-                toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-                toast.innerHTML = `
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                `;
-                
-                document.body.appendChild(toast);
-                
-                // Auto-remove after 3 seconds
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.remove();
+        })
+
+        $(document).on('change', '.product-select', function(){
+            var value = $(this).find('option:selected').val();
+            var tr = $(this).closest('tr');
+            var category = tr.find('.category-select').find('option:selected').val();
+            var id = $(this).find('option:selected').data('id');
+            var count = 0
+            if(category != '' && value != '' && id != undefined){
+                $('tr').each(function(){
+                    if($(this).find('.category-select').val() == category && $(this).find('.product-select').val() == value ) 
+                    {
+                        count = count*1 + 1
                     }
-                }, 3000);
+                })
+
+                if(count == 2)
+                {
+                    tr.find('.unit-weight').val('');
+                    tr.find('.in-stock').val('');
+                    tr.find('.quantity-input').val('');
+                    Swal.fire({
+                        title: "Error",
+                        text: "Product Already Selected",
+                        icon: "error",
+                    })
+                    tr.find('.product-select option[value=""]').prop('selected', true).trigger('change');
+                }
+                else{
+                    $('.total-items').text($('.quantity-input').length*1);
+                    tr.find('.unit-weight').val(stock[id][2]);
+                    tr.find('.in-stock').val(stock[id][5]);
+                }
             }
-            
-            // Initialize
-            updateDeleteButtons();
-            updateOrderSummary();
+            else{
+                tr.find('.unit-weight').val('');
+                tr.find('.in-stock').val('');
+                tr.find('.quantity-input').val('');
+                $('.total-items').text($('.quantity-input').length*1);
+            }
+        })
+
+        $(document).on('input', '.quantity-input', function(){
+            var value = $(this).val()
+            var stock = $(this).closest('tr').find('.in-stock').val()
+            if($(this).val() != "")
+            {
+                if(value*1 > stock*1)
+                {
+                    $(this).val(stock);
+                }
+            }
+        })
+
+        $(document).on('click', '.add-product', function(){
+            addProductRow();
+        })
+
+        $(document).on('click', '.delete-product', function(){
+            $(this).closest('tr').remove();
+            $('.total-items').text($('.quantity-input').length*1);
+        })
+
+        function validate() {
+            var valid = true;
+            $('input, select, .select2-selection').removeClass('danger')
+            $(".alert-danger").remove();
+            $(".required:visible, .mandatory:visible").each(function () {
+                if ($(this).val() == "" || $(this).val() == null || ($(this).attr('type') == "checkbox" && !$(this).is(":checked"))) {
+                    $(this).closest("div").append('<div class="alert-danger ps-1">This field is required</div>');
+                    $(this).addClass('danger')
+                    valid = false;
+                }
+            });
+            $(".email:visible").each(function () {
+                var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+                email_check = emailReg.test($(this).val())
+                if (email_check == false) {
+                    $(this).closest("div").append('<div class="alert-danger ps-1">Invalid email format</div>');
+                    $(this).addClass('danger')
+                    valid = false;
+                }
+            })
+
+            if (!valid) {
+                $("html, body").animate(
+                    {
+                        scrollTop: $(".alert-danger:first").offset().top - 80,
+                    },
+                    100
+                );
+            }
+            return valid;
+        }
+
+        $(document).on('input', '.number', function (e) {
+            this.value = this.value.replace(/[^0.00-9.99]/g, '').replace(/(\..*)\./g, '$1').replace(new RegExp("(^[\\d]{50})[\\d]", "g"), '$1');
         });
+
+        $(document).on('click', '#save-btn', function(e){
+            e.preventDefault();
+            if(!validate()){
+                return;
+            }
+            else{
+                $('.loader-overlay').addClass('show');
+                var form = $("#formValues");
+                $('#save-btn').attr('disabled', 'disabled');
+                $('#save-btn').text('Please wait...');
+                var url_gsheet = $('#formValues').attr("action");
+                $.ajax({
+                    type: "POST",
+                    url: url_gsheet,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        if (response.result == "success") {
+                            Swal.fire({
+                                title: "Good Job!",
+                                text: "Thank you for submitting",
+                                icon: "success",
+                            })
+                                // $('#save-btn').removeAttr('disabled');
+                                // $('#save-btn').text('Submit Again');
+                                // $('.loader-overlay').removeClass('show');
+                                .then(function () {
+                                    window.location = window.location.href;
+                                });
+                            setTimeout(function () {
+                                window.location = window.location.href;
+                            }, 3000);
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: response.error,
+                                icon: "error",
+                            }).then(function () {
+                                $('#save-btn').removeAttr('disabled');
+                                $('#save-btn').text('Submit Again');
+                                $('.loader-overlay').removeClass('show');
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Something went wrong",
+                            icon: "error",
+                        }).then(function () {
+                            $('#save-btn').removeAttr('disabled');
+                            $('#save-btn').text('Submit Again');
+                            $('.loader-overlay').removeClass('show');
+                        });
+                    }
+                });
+            }
+        })
     </script>
 </body>
 </html>
