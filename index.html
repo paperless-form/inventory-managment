@@ -30,11 +30,6 @@
                         <form id="formValues" action="https://script.google.com/macros/s/AKfycbwrlgN60-n1LiPXw7baYUVMCTIIEe836UAqC3WUZLHR56Gl21pKKKoiWcWXTGdLbzzE5Q/exec" method="post">
                             <input type="hidden" name="page" value="goods_in">
                             <div class="row g-4 mb-3">
-                                
-                                <!-- <div class="col-12 col-md-6">
-                                    <label for="item-code" class="form-label fw-semibold">Quantity</label>
-                                    <input type="text" class="form-control form-control-lg" id="item-code" placeholder="Enter item code" disabled>
-                                </div> -->
                                 <div class="col-12 col-md-6">
                                     <label for="staff" class="form-label fw-semibold">Staff</label>
                                     <select class="form-select form-select-lg select2 required staff" id="staff" name="staff">
@@ -57,11 +52,11 @@
                                                 <table class="table">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th scope="col" class="fw-semibold" width="20%">Category</th>
-                                                            <th scope="col" class="fw-semibold" width="20%">Product</th>
-                                                            <th scope="col" class="fw-semibold" width="20%">Item Code</th>
-                                                            <th scope="col" class="fw-semibold" width="20%">Unit / Weight</th>
-                                                            <th scope="col" class="fw-semibold" width="10%">Quantity</th>
+                                                            <th scope="col" class="fw-semibold" width="35%">Category</th>
+                                                            <th scope="col" class="fw-semibold" width="35%">Product</th>
+                                                            <!-- <th scope="col" class="fw-semibold" width="20%">Item Code</th>
+                                                            <th scope="col" class="fw-semibold" width="20%">Unit / Weight</th> -->
+                                                            <th scope="col" class="fw-semibold" width="20%">Quantity</th>
                                                             <th scope="col" class="fw-semibold text-center" width="10%">Actions</th>
                                                         </tr>
                                                     </thead>
@@ -123,9 +118,9 @@
                 var categories = [];
                 for(var i=0; i<products.length; i++)
                 {
-                    if(products[i][1] != '' && categories.indexOf(products[i][1]) == -1){
-                        categories_option += `<option value="${products[i][1]}">${products[i][1]}</option>`;
-                        categories.push(products[i][1]);
+                    if(products[i][0] != '' && categories.indexOf(products[i][0]) == -1){
+                        categories_option += `<option value="${products[i][0]}">${products[i][0]}</option>`;
+                        categories.push(products[i][0]);
                     }
                 }
                 
@@ -159,16 +154,6 @@
                     </td>
                     <td>
                         <div>
-                            <input type="text" class="form-control item-code" placeholder="Item Code" readonly name="item_code">
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <input type="text" class="form-control unit-weight" placeholder="Unit / Weight" readonly name="unit_weight">
-                        </div>
-                    </td>
-                    <td>
-                        <div>
                             <input type="text" class="form-control quantity required number" placeholder="Qty" name="quantity">
                             <input type="hidden" class="is-exist" name="is_exist">
                         </div>
@@ -196,28 +181,40 @@
             var value = $(this).find('option:selected').val();
             var tr = $(this).closest('tr');
             tr.find('.product').empty();
-            tr.find('.item-code, .unit-weight').val('');
+            // tr.find('.item-code, .unit-weight').val('');
             tr.find('.product').append(`<option value="" selected disabled>Select Product</option>`);
             for(var i=0; i<products.length; i++){
-                if(products[i][1] == value){
-                    tr.find('.product').append(`<option value="${products[i][2]}" data-id="${i}">${products[i][2]}</option>`);
+                if(products[i][0] == value){
+                    tr.find('.product').append(`<option value="${products[i][1]}" data-id="${i}">${products[i][1]}</option>`);
                 }
             }
         })
+
+        
+        // <td>
+        //                 <div>
+        //                     <input type="text" class="form-control item-code" placeholder="Item Code" readonly name="item_code">
+        //                 </div>
+        //             </td>
+        //             <td>
+        //                 <div>
+        //                     <input type="text" class="form-control unit-weight" placeholder="Unit / Weight" readonly name="unit_weight">
+        //                 </div>
+        //             </td>
 
         $(document).on('change', '.product', function(){    
             var value = $(this).find('option:selected').val();
             var tr = $(this).closest('tr');
             var id = $(this).find('option:selected').data('id');
             if(id != undefined){
-                tr.find('.item-code').val(products[id][0]);
-                tr.find('.unit-weight').val(products[id][3]);
-                tr.find('.item-code, .unit-weight').attr('readonly', true);
+                // tr.find('.item-code').val(products[id][0]);
+                // tr.find('.unit-weight').val(products[id][3]);
+                // tr.find('.item-code, .unit-weight').attr('readonly', true);
                 tr.find('.is-exist').val('yes');
             }
             else{
-                tr.find('.item-code, .unit-weight').val('');
-                tr.find('.item-code, .unit-weight').removeAttr('readonly');
+                // tr.find('.item-code, .unit-weight').val('');
+                // tr.find('.item-code, .unit-weight').removeAttr('readonly');
                 tr.find('.is-exist').val('no');
             }
         })

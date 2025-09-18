@@ -35,7 +35,7 @@
                             <div class="row g-3">
                                 <!-- Customer Name -->
                                 <div class="col-12 col-md-6">
-                                    <label for="customerName" class="form-label fw-semibold">Customer Name <span class="text-danger">*</span></label>
+                                    <label for="customerName" class="form-label fw-semibold">Student ID or full name if unknown <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-lg required" id="customerName" placeholder="Enter your full name" name="customer_name">
                                     <input type="hidden" name="page" value="order_form">
                                     <input type="hidden" name="date">
@@ -52,12 +52,6 @@
                                 <div class="col-12 col-md-6">
                                     <label for="phoneNumber" class="form-label fw-semibold">Phone Number <span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control form-control-lg number required" id="phoneNumber" placeholder="Enter your phone number" name="phone_number">
-                                </div>
-
-                                <!-- Shipping Address -->
-                                <div class="col-12">
-                                    <label for="shippingAddress" class="form-label fw-semibold">Shipping Address <span class="text-danger">*</span></label>
-                                    <textarea class="form-control form-control-lg required" id="shippingAddress" rows="3" placeholder="Enter your complete shipping address" name="shipping_address"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -77,11 +71,11 @@
                                 <table class="table table-hover product-table">
                                     <thead class="table-light">
                                         <tr>
-                                            <th scope="col" class="fw-semibold" width="25%">Category</th>
-                                            <th scope="col" class="fw-semibold" width="25%">Product</th>
-                                            <th scope="col" class="fw-semibold" width="15%">Unit / Weight</th>
-                                            <th scope="col" class="fw-semibold" width="15%">In Stock</th>
-                                            <th scope="col" class="fw-semibold" width="15%">Quantity</th>
+                                            <th scope="col" class="fw-semibold" width="30%">Category</th>
+                                            <th scope="col" class="fw-semibold" width="30%">Product</th>
+                                            <!-- <th scope="col" class="fw-semibold" width="15%">Unit / Weight</th> -->
+                                            <th scope="col" class="fw-semibold" width="18%">In Stock</th>
+                                            <th scope="col" class="fw-semibold" width="17%">Quantity</th>
                                             <th scope="col" class="fw-semibold text-center" width="5%">Actions</th>
                                         </tr>
                                     </thead>
@@ -152,7 +146,7 @@
                 stock = response.stock;
                 
                 for(var i=0; i<stock.length; i++){
-                    if(stock[i][5] != '' && stock[i][5] != "0" && categories.indexOf(stock[i][0]) == -1){
+                    if(stock[i][4] != '' && stock[i][4] != "0" && categories.indexOf(stock[i][0]) == -1){
                         category_options += `<option value="${stock[i][0]}">${stock[i][0]}</option>`;
                         categories.push(stock[i][0]);
                     }
@@ -168,7 +162,11 @@
             }
             return i;
         }
-
+        // <td>
+        //                 <div>
+        //                     <input type="text" class="form-control unit-weight" readonly placeholder="Unit Weight" name="unit_weight">
+        //                 </div>
+        //             </td>
         function addProductRow(){
             $('.btn-outline-success').addClass('btn-outline-danger').removeClass('btn-outline-success');
             $('.add-product').addClass('delete-product').removeClass('add-product');
@@ -190,11 +188,7 @@
                             </select>
                         </div>
                     </td>
-                    <td>
-                        <div>
-                            <input type="text" class="form-control unit-weight" readonly placeholder="Unit Weight" name="unit_weight">
-                        </div>
-                    </td>
+                    
                     <td>
                         <div>
                             <input type="text" class="form-control in-stock" readonly placeholder="In Stock">
@@ -222,11 +216,11 @@
             tr.find('.product-select').empty();
             tr.find('.product-select').append(`<option value="" selected disabled>Select Product</option>`);
             
-            tr.find('.unit-weight').val('');
+            // tr.find('.unit-weight').val('');
             tr.find('.in-stock').val('');
 
             for(var i=0; i<stock.length; i++){
-                if(stock[i][0] == value && stock[i][5] != '' && stock[i][5] != "0"){
+                if(stock[i][0] == value && stock[i][4] != '' && stock[i][4] != "0"){
                     tr.find('.product-select').append(`<option value="${stock[i][1]}" data-id="${i}">${stock[i][1]}</option>`);
                 }
             }
@@ -248,7 +242,7 @@
 
                 if(count == 2)
                 {
-                    tr.find('.unit-weight').val('');
+                    // tr.find('.unit-weight').val('');
                     tr.find('.in-stock').val('');
                     tr.find('.quantity-input').val('');
                     Swal.fire({
@@ -260,12 +254,12 @@
                 }
                 else{
                     $('.total-items').text($('.quantity-input').length*1);
-                    tr.find('.unit-weight').val(stock[id][2]);
-                    tr.find('.in-stock').val(stock[id][5]);
+                    // tr.find('.unit-weight').val(stock[id][2]);
+                    tr.find('.in-stock').val(stock[id][4]);
                 }
             }
             else{
-                tr.find('.unit-weight').val('');
+                // tr.find('.unit-weight').val('');
                 tr.find('.in-stock').val('');
                 tr.find('.quantity-input').val('');
                 $('.total-items').text($('.quantity-input').length*1);
