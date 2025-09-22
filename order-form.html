@@ -18,7 +18,7 @@
             <div class="col-12">
                 <!-- Header Section -->
                 <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bold text-primary mb-3">Place Your Order</h1>
+                    <h1 class="display-5 fw-bold text-primary mb-3">The Market</h1>
                     <p class="lead text-muted">Complete your customer and product details below</p>
                 </div>
 
@@ -35,7 +35,7 @@
                             <div class="row g-3">
                                 <!-- Customer Name -->
                                 <div class="col-12 col-md-6">
-                                    <label for="customerName" class="form-label fw-semibold">Student ID or full name if unknown <span class="text-danger">*</span></label>
+                                    <label for="customerName" class="form-label fw-semibold">Student ID (to remain anonymous) or Full Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-lg required" id="customerName" placeholder="Enter your full name" name="customer_name">
                                     <input type="hidden" name="page" value="order_form">
                                     <input type="hidden" name="date">
@@ -44,14 +44,14 @@
 
                                 <!-- Email Address -->
                                 <div class="col-12 col-md-6">
-                                    <label for="emailAddress" class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control form-control-lg required email" id="emailAddress" placeholder="Enter your email address" name="email_address">
+                                    <label for="emailAddress" class="form-label fw-semibold">Email (leave blank to remain anonymous)</label>
+                                    <input type="email" class="form-control form-control-lg email" id="emailAddress" placeholder="Enter your email address" name="email_address">
                                 </div>
 
                                 <!-- Phone Number -->
                                 <div class="col-12 col-md-6">
-                                    <label for="phoneNumber" class="form-label fw-semibold">Phone Number <span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control form-control-lg number required" id="phoneNumber" placeholder="Enter your phone number" name="phone_number">
+                                    <label for="phoneNumber" class="form-label fw-semibold">Phone Number</label>
+                                    <input type="tel" class="form-control form-control-lg number" id="phoneNumber" placeholder="Enter your phone number" name="phone_number">
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                                             <!-- <th scope="col" class="fw-semibold" width="15%">Unit / Weight</th> -->
                                             <th scope="col" class="fw-semibold" width="18%">In Stock</th>
                                             <th scope="col" class="fw-semibold" width="17%">Quantity</th>
-                                            <th scope="col" class="fw-semibold text-center" width="5%">Actions</th>
+                                            <th scope="col" class="fw-semibold text-center" width="5%">Add</th>
                                         </tr>
                                     </thead>
                                     <tbody id="productTableBody">
@@ -342,7 +342,7 @@
                         if (response.result == "success") {
                             Swal.fire({
                                 title: "Good Job!",
-                                text: "Thank you for submitting",
+                                text: "You will be contacted once your order is processed.",
                                 icon: "success",
                             })
                                 // $('#save-btn').removeAttr('disabled');
