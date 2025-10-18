@@ -138,7 +138,7 @@
         var stock = '', product_options = '', category_options = '', categories = [];
         $(document).ready(function(){
             var date = new Date();
-            var today =addZero(date.getDate())+ '/' + addZero(date.getMonth() + 1) + '/' +date.getFullYear() ;
+            var today =addZero(date.getMonth() + 1) + '/' +addZero(date.getDate())+ '/' + date.getFullYear() ;
             $('input[name="date"]').val(today);
             $('input[name="order_ref"]').val(addZero(date.getHours())+ '' + addZero(date.getMinutes()) + '' + addZero(date.getSeconds())+ '' + addZero(date.getDate())+ '' + addZero(date.getMonth() + 1) + '' +date.getFullYear());
 
